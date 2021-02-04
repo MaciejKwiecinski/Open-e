@@ -3,7 +3,7 @@ import socket
 
 class Client:
     HEADER = 64
-    PORT = 5051
+    PORT = 5050
     FORMAT = 'utf-8'
     DISCONNECT_MESSAGE = "!DISCONNECT"
     SERVER = socket.gethostbyname(socket.gethostname())
@@ -24,8 +24,8 @@ class Client:
         self.client.send(send_length)
         self.client.send(message)
 
-
-c1 = Client("Kappa")
+print("podaj swoją nazwę do chatu")
+c1 = Client(input())
 
 while True:
     msg = input()

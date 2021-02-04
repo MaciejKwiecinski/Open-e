@@ -1,5 +1,11 @@
 import socket
+import os
 import threading
+
+def take_name(string):
+    x = string.split("]")
+    x[0] = x[0][1:]
+    return x[0]
 
 def check(string):
     x = string.split("]")
@@ -12,7 +18,7 @@ def check(string):
 
 class Server:
     HEADER = 64
-    PORT = 5051
+    PORT = 5050
     SERVER = socket.gethostbyname(socket.gethostname())
     ADDR = (SERVER, PORT)
     FORMAT = 'utf-8'
@@ -33,9 +39,12 @@ class Server:
                 msg = conn.recv(msg_length).decode(Server.FORMAT)
                 if msg == Server.DISCONNECT_MESSAGE:
                     connected = False
-                elif check(msg) != True:
+                if check(msg) != True:
                     print(f"{msg}")
                     self.messages += msg + "\n"
+                else:
+                    name = take_name(msg)
+                    print(f"Witaj {name}")
                 conn.send("Msg received".encode(Server.FORMAT))
 
         conn.close()
@@ -50,7 +59,7 @@ class Server:
             thread = threading.Thread(target=self.handleClient, args=(conn, addr))
             thread.start()
             print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
-            print(chr(27) + '[2j')
+            os.system('clear')
             print(self.messages)
 
 s1 = Server()
