@@ -1,9 +1,11 @@
 import tkinter as tk
+import sched, time
 from server import Server
 from client import Client
 
 class GUI:
     def __init__(self, root):
+        self.users = ""
         self.root = root
         self.root.geometry("1000x670")
         self.root.title("Messenger")
@@ -33,6 +35,16 @@ class GUI:
         self.name_button.pack_forget()
         self.message()
         self.all()
+        c1 = Client(self.name.get())
+        self.users += self.name.get() + "\n"
+        s = sched.scheduler(time.time, time.sleep)
+        s.enter(60, 1, self.check_message())
+
+    def check_message(self):
+
+
+
+
 
 root = tk.Tk()
 gui = GUI(root)
